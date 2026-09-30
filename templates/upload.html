@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Upload File{% endblock %}
+
+{% block content %}
+
+<div class="sidebar">
+
+    <div class="logo">
+        🔒 <span>SecureVault</span>
+    </div>
+
+    <a href="/dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <a href="/upload"><i class="bi bi-cloud-upload"></i> Upload File</a>
+    <a href="/files"><i class="bi bi-folder2-open"></i> My Files</a>
+
+    {% if role == "Admin" %}
+    <a href="/admin"><i class="bi bi-shield-lock"></i> Admin Panel</a>
+    {% endif %}
+
+    <a href="/logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
+
+</div>
+
+<div class="main">
+
+    <div class="topbar">
+
+        <div>
+            <h2>Upload Secure File</h2>
+            <small class="user">
+                Select a file to securely store in SecureVault
+            </small>
+        </div>
+
+    </div>
+
+    <div class="content">
+
+        <div class="form-card">
+
+            <h3 class="mb-4">
+                <i class="bi bi-cloud-arrow-up-fill"></i>
+                Upload File
+            </h3>
+
+            <form method="POST" enctype="multipart/form-data">
+
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="mb-4">
+
+                    <input
+                        type="file"
+                        class="form-control"
+                        name="file"
+                        required>
+
+                </div>
+
+                <button
+                    class="btn btn-primary w-100">
+
+                    <i class="bi bi-upload"></i>
+
+                    Upload Securely
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

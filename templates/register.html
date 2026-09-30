@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid vh-100">
+
+    <div class="row h-100">
+
+        <!-- Left Side -->
+        <div class="col-lg-7 d-none d-lg-flex login-left">
+
+            <div>
+
+                <h1>🔒 SecureVault</h1>
+
+                <h4>Create Your Secure Account</h4>
+
+                <p class="mt-4">
+                    Register to securely upload, manage and access your files
+                    using enterprise-grade security.
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- Right Side -->
+        <div class="col-lg-5 d-flex align-items-center justify-content-center">
+
+            <div class="login-card">
+
+                <h2 class="mb-4 text-center">
+                    Register
+                </h2>
+
+                <form method="POST">
+
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                    <input
+                        class="form-control mb-3"
+                        type="text"
+                        name="username"
+                        placeholder="Username"
+                        required>
+
+                    {% if error %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                    {% endif %}
+
+                    <input
+                        class="form-control mb-3"
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Password"
+                        required>
+
+                    <div class="password-rules">
+
+                        <p id="length">❌ At least 8 characters</p>
+
+                        <p id="uppercase">❌ One uppercase letter</p>
+
+                        <p id="lowercase">❌ One lowercase letter</p>
+
+                        <p id="number">❌ One number</p>
+
+                        <p id="special">❌ One special character</p>
+
+                        <h5 class="mt-3">
+
+                            Strength:
+                            <span id="strength" class="text-danger">
+                                Weak
+                            </span>
+
+                        </h5>
+
+                        <div class="progress mt-3">
+
+                            <div
+                                id="strengthBar"
+                                class="progress-bar"
+                                style="width:0%">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <button class="btn btn-primary w-100 mt-4">
+                        Create Account
+                    </button>
+
+                </form>
+
+                <div class="text-center mt-4">
+
+                    <a href="/login">
+                        Already have an account?
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+const password = document.getElementById("password");
+
+const lengthRule = document.getElementById("length");
+const uppercaseRule = document.getElementById("uppercase");
+const lowercaseRule = document.getElementById("lowercase");
+const numberRule = document.getElementById("number");
+const specialRule = document.getElementById("special");
+
+const strength = document.getElementById("strength");
+const strengthBar = document.getElementById("strengthBar");
+
+password.addEventListener("input", function () {
+
+    const value = password.value;
+
+    let score = 0;
+
+    if (value.length >= 8) {
+
+        lengthRule.innerHTML = "✅ At least 8 characters";
+        score++;
+
+    } else {
+
+        lengthRule.innerHTML = "❌ At least 8 characters";
+
+    }
+
+    if (/[A-Z]/.test(value)) {
+
+        uppercaseRule.innerHTML = "✅ One uppercase letter";
+        score++;
+
+    } else {
+
+        uppercaseRule.innerHTML = "❌ One uppercase letter";
+
+    }
+
+    if (/[a-z]/.test(value)) {
+
+        lowercaseRule.innerHTML = "✅ One lowercase letter";
+        score++;
+
+    } else {
+
+        lowercaseRule.innerHTML = "❌ One lowercase letter";
+
+    }
+
+    if (/[0-9]/.test(value)) {
+
+        numberRule.innerHTML = "✅ One number";
+        score++;
+
+    } else {
+
+        numberRule.innerHTML = "❌ One number";
+
+    }
+
+    if (/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
+
+        specialRule.innerHTML = "✅ One special character";
+        score++;
+
+    } else {
+
+        specialRule.innerHTML = "❌ One special character";
+
+    }
+
+    if (score <= 2) {
+
+        strength.innerHTML = "Weak";
+        strength.style.color = "#dc3545";
+
+        strengthBar.style.width = "33%";
+        strengthBar.style.backgroundColor = "#dc3545";
+
+    }
+
+    else if (score <= 4) {
+
+        strength.innerHTML = "Medium";
+        strength.style.color = "#ffc107";
+
+        strengthBar.style.width = "66%";
+        strengthBar.style.backgroundColor = "#ffc107";
+
+    }
+
+    else {
+
+        strength.innerHTML = "Strong";
+        strength.style.color = "#198754";
+
+        strengthBar.style.width = "100%";
+        strengthBar.style.backgroundColor = "#198754";
+
+    }
+
+});
+
+</script>
+
+{% endblock %}
